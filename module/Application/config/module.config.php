@@ -22,6 +22,22 @@ return array (
 					),
 				),
 			),
+			'login' => array(
+				'type' => 'Zend\Mvc\Router\Http\Literal',
+				'options' => array (
+					'route' => '/login',
+					'defaults' => array (
+						'controller' => 'Application\Controller\Auth',
+						'action' => 'login',
+					),
+				),
+			),
+
+
+
+			/**
+			 * OLD
+			 */
 			'contacts' => array (
 				'type' => 'Zend\Mvc\Router\Http\Literal',
 				'options' => array (
@@ -153,13 +169,20 @@ return array (
 			),
 		),
 	),
+	'factories' => array(
+		'Application\Controller\Auth' => 'Application\Controller\AuthControllerFactory',
+	),
 	'controllers' => array (
 		'invokables' => array (
 			'Application\Controller\Index' => 'Application\Controller\IndexController',
+//			'Application\Controller\Auth' => 'Application\Controller\AuthController',
+
 			'Application\Controller\Ajax' => 'Application\Controller\AjaxController',
 			'Application\Controller\Teachers' => 'Application\Controller\TeachersController'
 		),
 	),
+
+
 	'view_manager' => array (
 		'display_not_found_reason' => true,
 		'display_exceptions' => true,

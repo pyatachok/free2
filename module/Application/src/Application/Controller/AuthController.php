@@ -1,8 +1,10 @@
 <?php
-namespace  Application\Controller;
+
+namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+
 /**
  * Description of AuthController
  *
@@ -13,13 +15,46 @@ class AuthController extends AbstractActionController
 
 	private $loginForm;
 
-	public function loginAction()
+	public function loginAction ()
 	{
-		if (!$this->loginForm)
+		if ( !$this -> loginForm )
 		{
-			throw new \BadMethodCalled('Login Form not yet set!');
+			throw new \BadMethodCallException ( 'Login Form not yet set!' );
 		}
+		if ( $this -> getRequest () -> isPost () )
+		{
+			$this -> loginForm -> setData ( $this -> getRequest () -> getPost () );
+			if ( $this -> loginForm -> isValid () )
+			{
+				var_dump ( $this -> loginForm -> getData () );
+				exit;
+			}
+			else
+			{
+				return new ViewModel (
+						[
+					'form' => $this -> loginForm
+						]
+				);
+			}
+		}
+		else
+		{
+			return new ViewModel (
+					[
+				'form' => $this -> loginForm
+					]
+			);
+		}
+	}
 
-		
+	public function setLoginForm ( $loginForm )
+	{
+		$this -> loginForm = $loginForm;
+	}
+
+	public function getLoginForm()
+	{
+		return $this->loginForm;
 	}
 }
