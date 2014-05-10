@@ -32,6 +32,19 @@ return array (
 					),
 				),
 			),
+			
+			'registration' => array (
+				'type' => 'Zend\Mvc\Router\Http\Literal',
+				'options' => array (
+					'route' => '/registration',
+					'defaults' => array (
+						'controller' => 'Application\Controller\Auth',
+						'action' => 'registration',
+					),
+				),
+			),
+			
+			
 			'logout' => array (
 				'type' => 'Zend\Mvc\Router\Http\Literal',
 				'options' => array (

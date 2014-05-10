@@ -10,7 +10,8 @@ use Application\Service\EntityManagerAwareInterface;
 use Application\Service\EntityManagerAwareTrait;
 use Zend\Authentication\AuthenticationServiceInterface;
 use Application\Service\ControlUtils;
-
+use Application\Form\Registration;
+use Application\Entity\User;
 
 /**
  * Description of AuthController
@@ -19,10 +20,22 @@ use Application\Service\ControlUtils;
  */
 class AuthController extends AbstractActionController implements EntityManagerAwareInterface
 {
-	use EntityManagerAwareTrait, ControlUtils;
 
+	use EntityManagerAwareTrait,
+	 ControlUtils;
+
+	/**
+	 *
+	 * @var Login
+	 */
 	private $loginForm;
-	
+
+	/**
+	 *
+	 * @var Registration
+	 */
+	private $registrationFrom;
+
 	/**
 	 *
 	 * @var AuthenticationServiceInterface
@@ -91,9 +104,58 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 	{
 		if ( $this -> getAuthenticationService () -> hasIdentity () )
 		{
-				$this -> getAuthenticationService () -> clearIdentity ();
+			$this -> getAuthenticationService () -> clearIdentity ();
 		}
-		$this->redirect()->toUrl('/login');
+		$this -> redirect () -> toUrl ( '/login' );
+	}
+
+	public function registrationAction ()
+	{
+		if ( $this -> getAuthenticationService () -> hasIdentity () )
+		{
+			$this -> redirect () -> toRoute ( '/home' );
+		}
+
+		$this -> registrationFrom = new Registration();
+
+		if ( $this -> getRequest () -> isPost () )
+		{
+			$this -> registrationFrom -> setData ( $this -> getRequest () -> getPost () );
+			if ( $this -> registrationFrom -> isValid () )
+			{
+				$data = $this -> getRequest () -> getPost ();
+				
+				$em = $this -> getEntityManager ();
+				$newUser = new User();
+				$newUser -> setUserName($data[ 'username' ])
+					-> setPassword($data[ 'password' ]);
+				$em -> persist($newUser);
+				$em->flush();
+				
+				
+				
+				return new ViewModel ( array (
+							'error' => 'user is added',
+						) );
+			}
+			else
+			{
+				print_r ( $this -> registrationFrom -> getInputFilter () ->  getMessages ());
+				return new ViewModel (
+						[
+							'form' => $this -> registrationFrom
+						]
+				);
+			}
+		}
+		else
+		{
+			return new ViewModel (
+					[
+						'form' => $this -> registrationFrom
+					]
+			);
+		}
 	}
 
 	public function setLoginForm ( $loginForm )

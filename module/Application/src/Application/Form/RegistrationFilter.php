@@ -2,14 +2,16 @@
 
 namespace Application\Form;
 
+
 use Zend\InputFilter\InputFilter;
+use Zend\Validator\Identical;
 
 /**
  * Description of LoginFilter
  *
  * @author mice
  */
-class LoginFilter extends InputFilter
+class RegistrationFilter extends InputFilter
 {
 
 	public function __construct ()
@@ -21,6 +23,18 @@ class LoginFilter extends InputFilter
 		$this -> add ( array (
 			'name' => 'password',
 			'required' => true,
+		) );
+		$this -> add ( array (
+			'name' => 'retype',
+			'required' => true,
+			'validators' => array (
+				array (
+					'name' => 'Identical',
+					'options' => array (
+						'token' => 'password' //I have tried $_POST['password'], but it doesnt work either
+					)
+				)
+			)
 		) );
 	}
 

@@ -74,4 +74,17 @@ class User
 		return get_object_vars ( $this );
 	}
 
+	
+	public function setUserName ($userName)
+	{
+		$this -> username = $userName;
+		return $this;
+	}
+	
+	public function setPassword ($password)
+	{
+		$this -> password = md5($password);
+		return $this;
+	}
+	
 }
