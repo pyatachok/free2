@@ -8,6 +8,7 @@ use Zend\View\Model\ViewModel;
 use Application\Form\Login;
 use Application\Service\EntityManagerAwareInterface;
 use Application\Service\EntityManagerAwareTrait;
+use Zend\Authentication\AuthenticationServiceInterface;
 
 /**
  * Description of AuthController
@@ -24,17 +25,27 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 	public function loginAction ()
 	{
 		$this -> setLoginForm ( new Login () );
-		
+
+		/**
+		 * @var AuthenticationServiceInterface $authService
+		 */
+		$authService = $this -> getServiceLocator ()
+				-> get ( 'Application\Service\AuthService' );
+
+		if ( $authService -> hasIdentity () )
+		{
+			return new ViewModel ( array (
+				'loggedUser' => $authService -> getIdentity (),
+					) );
+		}
+
 		if ( $this -> getRequest () -> isPost () )
 		{
 			$this -> loginForm -> setData ( $this -> getRequest () -> getPost () );
 			if ( $this -> loginForm -> isValid () )
 			{
-				$data = $this -> getRequest () -> getPost ();
 
-				// If you used another name for the authentication service, change it here
-				$authService = $this -> getServiceLocator () 
-						-> get ( 'Application\Service\AuthService' );
+				$data = $this -> getRequest () -> getPost ();
 
 				$adapter = $authService -> getAdapter ();
 				$adapter -> setIdentityValue ( $data[ 'username' ] );
@@ -43,13 +54,17 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 
 				if ( $authResult -> isValid () )
 				{
-					return $this -> redirect () -> toRoute ( 'home' );
+					$identity = $authResult -> getIdentity ();
+					$authService -> getStorage () -> write ( $identity );
+
+					return new ViewModel ( array (
+						'loggedUser' => $identity,
+							) );
 				}
 
 				return new ViewModel ( array (
 					'error' => 'Your authentication credentials are not valid',
-				) );
-				exit;
+						) );
 			}
 			else
 			{
@@ -68,6 +83,17 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 					]
 			);
 		}
+	}
+
+	public function logoutAction ()
+	{
+		$authService = $this -> getServiceLocator ()
+				-> get ( 'Application\Service\AuthService' );
+		if ( $authService -> hasIdentity () )
+		{
+				$authService -> clearIdentity ();
+		}
+		$this->redirect()->toUrl('/login');
 	}
 
 	public function setLoginForm ( $loginForm )
