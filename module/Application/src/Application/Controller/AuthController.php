@@ -9,6 +9,8 @@ use Application\Form\Login;
 use Application\Service\EntityManagerAwareInterface;
 use Application\Service\EntityManagerAwareTrait;
 use Zend\Authentication\AuthenticationServiceInterface;
+use Application\Service\ControlUtils;
+
 
 /**
  * Description of AuthController
@@ -17,25 +19,25 @@ use Zend\Authentication\AuthenticationServiceInterface;
  */
 class AuthController extends AbstractActionController implements EntityManagerAwareInterface
 {
-
-	use EntityManagerAwareTrait;
+	use EntityManagerAwareTrait, ControlUtils;
 
 	private $loginForm;
+	
+	/**
+	 *
+	 * @var AuthenticationServiceInterface
+	 */
+	protected $authService;
 
 	public function loginAction ()
 	{
 		$this -> setLoginForm ( new Login () );
 
-		/**
-		 * @var AuthenticationServiceInterface $authService
-		 */
-		$authService = $this -> getServiceLocator ()
-				-> get ( 'Application\Service\AuthService' );
 
-		if ( $authService -> hasIdentity () )
+		if ( $this -> getAuthenticationService () -> hasIdentity () )
 		{
 			return new ViewModel ( array (
-				'loggedUser' => $authService -> getIdentity (),
+				'loggedUser' => $this -> getAuthenticationService () -> getIdentity (),
 					) );
 		}
 
@@ -47,15 +49,15 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 
 				$data = $this -> getRequest () -> getPost ();
 
-				$adapter = $authService -> getAdapter ();
+				$adapter = $this -> getAuthenticationService () -> getAdapter ();
 				$adapter -> setIdentityValue ( $data[ 'username' ] );
 				$adapter -> setCredentialValue ( $data[ 'password' ] );
-				$authResult = $authService -> authenticate ();
+				$authResult = $this -> getAuthenticationService () -> authenticate ();
 
 				if ( $authResult -> isValid () )
 				{
 					$identity = $authResult -> getIdentity ();
-					$authService -> getStorage () -> write ( $identity );
+					$this -> getAuthenticationService () -> getStorage () -> write ( $identity );
 
 					return new ViewModel ( array (
 						'loggedUser' => $identity,
@@ -87,11 +89,9 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 
 	public function logoutAction ()
 	{
-		$authService = $this -> getServiceLocator ()
-				-> get ( 'Application\Service\AuthService' );
-		if ( $authService -> hasIdentity () )
+		if ( $this -> getAuthenticationService () -> hasIdentity () )
 		{
-				$authService -> clearIdentity ();
+				$this -> getAuthenticationService () -> clearIdentity ();
 		}
 		$this->redirect()->toUrl('/login');
 	}
