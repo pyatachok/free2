@@ -22,7 +22,7 @@ return array (
 					),
 				),
 			),
-			'login' => array(
+			'login' => array (
 				'type' => 'Zend\Mvc\Router\Http\Literal',
 				'options' => array (
 					'route' => '/login',
@@ -32,12 +32,19 @@ return array (
 					),
 				),
 			),
-
-
-
 			/**
 			 * OLD
 			 */
+			'users' => array (
+				'type' => 'Zend\Mvc\Router\Http\Literal',
+				'options' => array (
+					'route' => '/users',
+					'defaults' => array (
+						'controller' => 'Application\Controller\Auth',
+						'action' => 'users',
+					),
+				),
+			),
 			'contacts' => array (
 				'type' => 'Zend\Mvc\Router\Http\Literal',
 				'options' => array (
@@ -153,7 +160,8 @@ return array (
 			'Zend\Log\LoggerAbstractServiceFactory',
 		),
 		'factories' => array (
-			'mailer' => 'Application\Service\EmailSenderFactory'
+			'mailer' => 'Application\Service\EmailSenderFactory',
+			'Application\Service\AuthService' => 'Application\Service\AuthServiceFactory'
 		),
 		'aliases' => array (
 			'translator' => 'MvcTranslator',
@@ -169,19 +177,14 @@ return array (
 			),
 		),
 	),
-	'factories' => array(
-		'Application\Controller\Auth' => 'Application\Controller\AuthControllerFactory',
-	),
 	'controllers' => array (
 		'invokables' => array (
 			'Application\Controller\Index' => 'Application\Controller\IndexController',
-//			'Application\Controller\Auth' => 'Application\Controller\AuthController',
-
+			'Application\Controller\Auth' => 'Application\Controller\AuthController',
 			'Application\Controller\Ajax' => 'Application\Controller\AjaxController',
 			'Application\Controller\Teachers' => 'Application\Controller\TeachersController'
 		),
 	),
-
 
 	'view_manager' => array (
 		'display_not_found_reason' => true,
@@ -222,7 +225,19 @@ return array (
 					__NAMESPACE__ . '\Entity' => 'orm_driver'
 				)
 			),
-		)
+		),
+		'authentication' => array (
+			'orm_default' => array (
+				'object_manager' => 'Doctrine\ORM\EntityManager',
+				'identity_class' => 'Application\Entity\User',
+				'identity_property' => 'username',
+				'credential_property' => 'password',
+				'credential_callable' => function(Entity\User $user, $passwordGiven)
+				{
+					return $user -> getPassword () == md5 ( $passwordGiven );
+				},
+			),
+		),
 	),
 	'contacts' => [
 		'phones' => [
