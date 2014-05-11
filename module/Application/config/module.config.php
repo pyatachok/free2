@@ -218,6 +218,7 @@ return array (
 	'controllers' => array (
 		'invokables' => array (
 			'Application\Controller\Index' => 'Application\Controller\IndexController',
+			'Application\Controller\Projects' => 'Application\Controller\ProjectsController',
 			'Application\Controller\Auth' => 'Application\Controller\AuthController',
 			'Application\Controller\Ajax' => 'Application\Controller\AjaxController',
 			'Application\Controller\Teachers' => 'Application\Controller\TeachersController'
@@ -286,5 +287,9 @@ return array (
 		'email' => 'email',
 		'name' => 'Ярослава Солтівская',
 		'skype' => 'skype',
+	],
+	
+	'projectsApi' => [
+		'url' => 'http://ideas.it-krayina.org.ua/'
 	],
 );
