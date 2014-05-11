@@ -19,7 +19,7 @@
 			<li><a  class="text-success" href="{{ url('services') }}">{{ translate('Услуги') }}</a></li>
 			<li><a href="/todo.php">Todo list</a></li>			
 			<li><a href="/todo.php">{{yo}}</a></li>			
-			{#
+			
 			<li class="dropdown">
 			    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Teachers <b class="caret"></b></a>
 			    <ul class="dropdown-menu">
@@ -34,7 +34,7 @@
 				<li><a href="#">Yasilda 2</a></li>
 			    </ul>
 			</li>
-			#}
+			
 		    </ul>
 			{#
 		    <form class="navbar-form navbar-left">
@@ -42,9 +42,10 @@
 		    </form>
 #}
 		    <ul class="nav navbar-nav navbar-right">
-			<li><a href="{{ url('contacts') }}">{{ translate('Contacts') }}</a></li>
-			{#
-			<li class="dropdown">
+			{#<li><a href="{{ url('contacts') }}">{{ translate('Contacts') }}</a></li>#}
+			
+					<li><a>Hello, {{ loggedUser.username }}</a></li>
+			{#<li class="dropdown">
 			    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 			    <ul class="dropdown-menu">
 				<li><a href="#">Action</a></li>

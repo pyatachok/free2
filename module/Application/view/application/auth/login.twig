@@ -1,7 +1,7 @@
 {% if error %}
 	{{ error }}
 {% elseif loggedUser %}
-	User logged as <b>{{loggedUser.name}}</b>
+	User logged as <b>{{loggedUser.username}}</b>
 {% else %}
 	{{ form(form) }}
 {% endif %}

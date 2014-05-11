@@ -19,14 +19,17 @@ trait ControlUtils
 	}
 	
 	/**
-	 * OLD
+	 * OLD 
 	 */
 	
 	public function onDispatch ( \Zend\Mvc\MvcEvent $e )
 	{
+		/**
+		 * Было бы хорошо конечно, но это ещё не совсем работает
+		 */
 		$evm = $this -> getEventManager ();
 		$evm -> attach ( 'render',
-				function (\Zend\Mvc\MvcEvent $e)
+				function (\Zend\Mvc\MvcEvent $e) 
 				{
 					$view = $e -> getViewModel ();
 					$view -> setVariables ( array (

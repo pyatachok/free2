@@ -43,7 +43,7 @@ class User
 	 * Возвращает имя 
 	 * @return string
 	 */
-	function getName ()
+	function getUserName ()
 	{
 		return $this -> username;
 	}
