@@ -25,9 +25,10 @@ class Login extends Form
 					'name' => 'username',
 					'attributes' => array (
 						'type' => 'text',
+						'placeholder' => 'Name:'
 					),
 					'options' => array (
-						'label' => 'Name:',
+//						'label' => 'Name:',
 					)
 				)
 		);
@@ -37,9 +38,10 @@ class Login extends Form
 					'name' => 'password',
 					'attributes' => array (
 						'type' => 'password',
+						'placeholder' => 'Password:'
 					),
 					'options' => array (
-						'label' => 'Password:'
+//						'label' => 'Password:'
 					),
 				)
 		);
@@ -49,7 +51,7 @@ class Login extends Form
 					'name' => 'submit',
 					'attributes' => array (
 						'type' => 'submit',
-						'value' => 'Send'
+						'value' => 'Login'
 					),
 				)
 		);

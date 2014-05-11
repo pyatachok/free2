@@ -55,6 +55,21 @@ return array (
 					),
 				),
 			),
+			
+			
+			'project' => array (
+				'type' => 'Segment',
+				'options' => array (
+					'route' => '/project/[:action]',
+					'constraints' => array (
+						'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+					),
+					'defaults' => array (
+						'controller' => 'Application\Controller\Projects',
+						'action' => 'index',
+					),
+				),
+			),
 			/**
 			 * OLD
 			 */

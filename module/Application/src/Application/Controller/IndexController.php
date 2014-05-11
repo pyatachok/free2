@@ -32,10 +32,12 @@ class IndexController extends AbstractActionController implements EntityManagerA
 
 		return new ViewModel (
 				array (
-			'loggedUser' => $this -> getLoggedUser (),
-			'last_review' => current ( $review ),
-			'contact' => $contact
-		) );
+					'loginForm' => $this -> getLoginForm (),
+					'identity' => $this -> getAuthenticationService() -> getIdentity(),
+					'loggedUser' => $this -> getLoggedUser (),
+					'last_review' => current ( $review ),
+					'contact' => $contact
+				) );
 	}
 
 	public function aboutAction ()

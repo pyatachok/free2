@@ -2,10 +2,24 @@
 
 namespace Application\Service;
 
+
+use Application\Form\Login;
+
+
 trait ControlUtils
 {
 
 	
+	/**
+	 *
+	 * @var Login
+	 */
+	private $loginForm;
+
+	
+	/**
+	 * @return \Zend\Authentication\AuthenticationServiceInterface
+	 */
 	protected function getAuthenticationService()
 	{
 		if ( empty( $this -> authService ))
@@ -24,6 +38,8 @@ trait ControlUtils
 	
 	public function onDispatch ( \Zend\Mvc\MvcEvent $e )
 	{
+		$this -> setLoginForm ( new Login () );
+
 		/**
 		 * Было бы хорошо конечно, но это ещё не совсем работает
 		 */
@@ -38,6 +54,17 @@ trait ControlUtils
 				} );
 
 		return parent::onDispatch ( $e );
+	}
+	
+	
+	public function setLoginForm ( $loginForm )
+	{
+		$this -> loginForm = $loginForm;
+	}
+
+	public function getLoginForm ()
+	{
+		return $this -> loginForm;
 	}
 
 }

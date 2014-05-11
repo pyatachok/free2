@@ -5,7 +5,7 @@ namespace Application\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Application\Form\Login;
+
 use Application\Service\EntityManagerAwareInterface;
 use Application\Service\EntityManagerAwareTrait;
 use Zend\Authentication\AuthenticationServiceInterface;
@@ -24,11 +24,6 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 	use EntityManagerAwareTrait,
 	 ControlUtils;
 
-	/**
-	 *
-	 * @var Login
-	 */
-	private $loginForm;
 
 	/**
 	 *
@@ -44,14 +39,11 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 
 	public function loginAction ()
 	{
-		$this -> setLoginForm ( new Login () );
-
+		
 
 		if ( $this -> getAuthenticationService () -> hasIdentity () )
 		{
-			return new ViewModel ( array (
-				'loggedUser' => $this -> getAuthenticationService () -> getIdentity (),
-					) );
+			$this -> redirect () ->  toUrl('/');
 		}
 
 		if ( $this -> getRequest () -> isPost () )
@@ -72,9 +64,7 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 					$identity = $authResult -> getIdentity ();
 					$this -> getAuthenticationService () -> getStorage () -> write ( $identity );
 
-					return new ViewModel ( array (
-						'loggedUser' => $identity,
-							) );
+					$this -> redirect () ->  toUrl('/');
 				}
 
 				return new ViewModel ( array (
@@ -83,18 +73,14 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 			}
 			else
 			{
-				return new ViewModel (
-						[
-					'form' => new Login ()
-						]
-				);
+				$this -> redirect () ->  toUrl('/');
 			}
 		}
 		else
 		{
 			return new ViewModel (
 					[
-				'form' => new Login ()
+				'form' => $this -> getLoginForm ()
 					]
 			);
 		}
@@ -106,14 +92,14 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 		{
 			$this -> getAuthenticationService () -> clearIdentity ();
 		}
-		$this -> redirect () -> toUrl ( '/login' );
+		$this -> redirect () ->  toUrl('/');
 	}
 
 	public function registrationAction ()
 	{
 		if ( $this -> getAuthenticationService () -> hasIdentity () )
 		{
-			$this -> redirect () -> toRoute ( '/home' );
+			$this -> redirect () ->  toUrl('/');
 		}
 
 		$this -> registrationFrom = new Registration();
@@ -158,15 +144,7 @@ class AuthController extends AbstractActionController implements EntityManagerAw
 		}
 	}
 
-	public function setLoginForm ( $loginForm )
-	{
-		$this -> loginForm = $loginForm;
-	}
 
-	public function getLoginForm ()
-	{
-		return $this -> loginForm;
-	}
 
 	public function usersAction ()
 	{
