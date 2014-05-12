@@ -10,6 +10,7 @@ use Application\Service\EntityManagerAwareInterface;
 use Application\Service\EntityManagerAwareTrait;
 use Application\Service\MenuTrait;
 use Application\Service\ControlUtils;
+use Application\Form\Login;
 
 class IndexController extends AbstractActionController implements EntityManagerAwareInterface
 {
@@ -19,7 +20,7 @@ class IndexController extends AbstractActionController implements EntityManagerA
 	 ControlUtils
 			;
 
-	
+
 	public function indexAction ()
 	{
 
@@ -30,11 +31,9 @@ class IndexController extends AbstractActionController implements EntityManagerA
 		$contacts = $this -> getServiceLocator () -> get ( 'Config' );
 		$contact = new Contact ( $contacts[ 'contacts' ] );
 
-		return new ViewModel (
+		return $this->createViewModel('application/index/index',
 				array (
-					'loginForm' => $this -> getLoginForm (),
-					'identity' => $this -> getAuthenticationService() -> getIdentity(),
-					'loggedUser' => $this -> getLoggedUser (),
+
 					'last_review' => current ( $review ),
 					'contact' => $contact
 				) );

@@ -1,30 +1,29 @@
 <?php
-namespace Application\Service;
 
+namespace Application\Service;
 
 use Doctrine\ORM\EntityManager;
 
 trait EntityManagerAwareTrait
 {
-        /**
-     * @var Doctrine\ORM\EntityManager
-     */
-    protected $em;
 
-    
-    public function setEntityManager(EntityManager $em)
-    {
-	$this->em = $em;
-    }
+	/**
+	 * @var Doctrine\ORM\EntityManager
+	 */
+	protected $em;
 
-    public function getEntityManager()
-    {
-	if (null === $this->em)
+	public function setEntityManager ( EntityManager $em )
 	{
-	    $this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+		$this -> em = $em;
 	}
-	return $this->em;
-    }
 
-    
+	public function getEntityManager ()
+	{
+		if ( null === $this -> em )
+		{
+			$this -> em = $this -> getServiceLocator () -> get ( 'Doctrine\ORM\EntityManager' );
+		}
+		return $this -> em;
+	}
+
 }

@@ -2,40 +2,32 @@
 
 namespace Application\Service;
 
-
 use Application\Form\Login;
-
+use Zend\View\Model\ViewModel;
 
 trait ControlUtils
 {
 
-	
 	/**
 	 *
 	 * @var Login
 	 */
 	private $loginForm;
 
-	
 	/**
 	 * @return \Zend\Authentication\AuthenticationServiceInterface
 	 */
-	protected function getAuthenticationService()
+	protected function getAuthenticationService ()
 	{
-		if ( empty( $this -> authService ))
+		if ( empty ( $this -> authService ) )
 		{
 			$this -> authService = $this -> getServiceLocator ()
-				-> get ( 'Application\Service\AuthService' );
+					-> get ( 'Application\Service\AuthService' );
 		}
-		
+
 		return $this -> authService;
-		
 	}
-	
-	/**
-	 * OLD 
-	 */
-	
+
 	public function onDispatch ( \Zend\Mvc\MvcEvent $e )
 	{
 		$this -> setLoginForm ( new Login () );
@@ -43,20 +35,39 @@ trait ControlUtils
 		/**
 		 * Было бы хорошо конечно, но это ещё не совсем работает
 		 */
-		$evm = $this -> getEventManager ();
-		$evm -> attach ( 'render',
-				function (\Zend\Mvc\MvcEvent $e) 
-				{
-					$view = $e -> getViewModel ();
+		$evm = $e -> getApplication () -> getEventManager ();
+		$evm -> attach ( \Zend\Mvc\MvcEvent::EVENT_RENDER, function (\Zend\Mvc\MvcEvent $event) {
+
+					$view = $event -> getViewModel ();
+
 					$view -> setVariables ( array (
-						'teachers' => $this -> getTeachers ()
+						'someVar' => 'yoyoyo',
+						'loginForm' => $this -> getLoginForm (),
+						'identity' => $this -> getAuthenticationService () -> getIdentity (),
+						'loggedUser' => $this -> getLoggedUser (),
 					) );
 				} );
 
 		return parent::onDispatch ( $e );
 	}
-	
-	
+
+	protected function createViewModel ( $template, $variables = [ ] )
+	{
+		$view = new ViewModel ();
+		$view -> setTemplate ( $template );
+		$view -> setTerminal ( true );
+
+		if ( !empty ( $variables ) )
+		{
+			$view -> setVariables ( $variables );
+		}
+
+		return $view;
+	}
+
+	/**
+	 * OLD
+	 */
 	public function setLoginForm ( $loginForm )
 	{
 		$this -> loginForm = $loginForm;

@@ -6,7 +6,7 @@ return array(
 		'ZfcTwig',
 		'DoctrineModule',
 		'DoctrineORMModule',
-		'ZendDeveloperTools'
+//		'ZendDeveloperTools'
 
     ),
 

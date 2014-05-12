@@ -11,64 +11,26 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="{{ url('home') }}">{{ translate('Home') }}</a>
+					<a class="navbar-brand" href="{{ url('home') }}">{{ translate('Home') }} {{someVar}} !</a>
 				</div>
 				<div class="navbar-collapse collapse navbar-responsive-collapse">
 					<ul class="nav navbar-nav">
-
-
 						<li><a  class="text-success" href="{{ url('project',{'action': 'list'}) }}">{{ translate('Projects') }}</a></li>
-			{#
-			<li><a  class="text-success" href="{{ url('about') }}">{{ translate('About') }}</a></li>
-			<li><a  class="text-success" href="{{ url('services') }}">{{ translate('Услуги') }}</a></li>
-			
-			<li class="dropdown">
-			    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Teachers <b class="caret"></b></a>
-			    <ul class="dropdown-menu">
-				<li><a href="{{ url('teachers') }}">List</a></li>
-				{% for teacher in teachers if teacher.urlName is not empty %}
-				    <li><a href="/teachers/{{teacher.urlName}}">{{teacher.name}}</a></l
-				{% endfor %}
-				<li><a href="/todo.php">Todo list</a></li>
-				<li class="divider"></li>
-				<li class="dropdown-header">Premium Teachers</li>
-				<li><a href="#">Yasilda 1</a></li>
-				<li><a href="#">Yasilda 2</a></li>
-			    </ul>
-			</li>
-#}			
-						</ul>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						{% if identity %}
+							<li><a>{{ loggedUser.username }}</a></li>
+							<li><a href="{{ url('logout') }}">Logout</a></li>
+						{% else %}
+								<li><a href="{{ url('registration') }}">Registration</a></li>
+								<li>{% include 'application/form/form_horizontal' with {'form' : loginForm} %}</li>
+						{% endif %}
 
-			{#
-		    <form class="navbar-form navbar-left">
-			<input type="text" class="form-control col-lg-8" placeholder="Search">
-		    </form>
-#}
-						<ul class="nav navbar-nav navbar-right">
-			{#<li><a href="{{ url('contacts') }}">{{ translate('Contacts') }}</a></li>#}
-			{% if identity %}
-								<li><a>{{ loggedUser.username }}</a></li>
-								<li><a href="{{ url('logout') }}">Logout</a></li>
-			{% else %}
-									<li><a href="{{ url('registration') }}">Registration</a></li>
-									<li>{% include 'application/form/form_horizontal' with {'form' : loginForm} %}</li>
-			{% endif %}
-			{#<li class="dropdown">
-			    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-			    <ul class="dropdown-menu">
-				<li><a href="#">Action</a></li>
-				<li><a href="#">Another action</a></li>
-				<li><a href="#">Something else here</a></li>
-				<li class="divider"></li>
-				<li><a href="#">Separated link</a></li>
-			    </ul>
-			</li>
-			#}
-									</ul>
-								</div><!-- /.nav-collapse -->
-							</div>
-						</div><!-- /.navbar -->
+					</ul>
+				</div><!-- /.nav-collapse -->
+			</div>
+		</div><!-- /.navbar -->
 
-					</div>
-				</div>
+	</div>
+</div>
 
