@@ -20,10 +20,10 @@
 					<ul class="nav navbar-nav navbar-right">
 						{% if identity %}
 							<li><a>{{ loggedUser.username }}</a></li>
-							<li><a href="{{ url('logout') }}">Logout</a></li>
+							<li><a href="{{ url('user-index', {'action':'logout'}) }}">Logout</a></li>
 						{% else %}
-								<li><a href="{{ url('registration') }}">Registration</a></li>
-								<li>{% include 'application/form/form_horizontal' with {'form' : loginForm} %}</li>
+								<li><a href="{{ url('user-index', {'action':'login'}) }}">Login</a>{# include 'application/form/form_horizontal' with {'form' : loginForm} #}</li>
+								<li><a href="{{ url('user-register') }}">Sign Up</a></li>
 						{% endif %}
 
 					</ul>
