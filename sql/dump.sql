@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 12, 2014 at 10:00 AM
+-- Generation Time: May 13, 2014 at 08:50 AM
 -- Server version: 5.5.6
 -- PHP Version: 5.2.17-0.dotdeb.0
 
@@ -67,19 +67,70 @@ INSERT INTO `language` (`id`, `name`, `abbreviation`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `privilege`
+--
+
+CREATE TABLE IF NOT EXISTS `privilege` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_id` int(11) DEFAULT NULL,
+  `role_id` int(11) NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `permission_allow` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_87209A8789329D25` (`resource_id`),
+  KEY `IDX_87209A87D60322AC` (`role_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=31 ;
+
+--
+-- Dumping data for table `privilege`
+--
+
+INSERT INTO `privilege` (`id`, `resource_id`, `role_id`, `name`, `permission_allow`) VALUES
+(1, 5, 1, 'index', 1),
+(2, 7, 1, 'index', 1),
+(3, 7, 2, 'changePassword', 1),
+(4, 7, 2, 'editProfile', 1),
+(5, 7, 2, 'changeEmail', 1),
+(6, 7, 1, 'forgottenPassword', 1),
+(7, 7, 1, 'confirmEmail', 1),
+(8, 7, 1, 'registrationSuccess', 1),
+(9, 6, 1, 'login', 1),
+(10, 6, 2, 'logout', 1),
+(11, 6, 1, 'index', 1),
+(12, 8, 1, NULL, 1),
+(13, 9, 1, 'view', 1),
+(14, 9, 2, 'vote', 1),
+(15, 9, 3, 'index', 1),
+(16, 9, 3, 'add', 1),
+(17, 9, 3, 'edit', 1),
+(18, 9, 3, 'delete', 1),
+(19, 10, 3, NULL, 1),
+(20, 11, 2, NULL, 1),
+(21, 12, 3, NULL, 1),
+(22, 13, 2, NULL, 1),
+(23, 14, 2, 'uri', 1),
+(24, 15, 1, 'index', 1),
+(25, 1, 1, 'view', 1),
+(26, 2, 1, 'view', 1),
+(27, 3, 2, 'view', 1),
+(28, 4, 3, 'view', 1),
+(29, 6, 2, 'login', 0),
+(30, 7, 2, 'index', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `projects`
 --
 
 CREATE TABLE IF NOT EXISTS `projects` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(1024) CHARACTER SET utf8 NOT NULL,
-  `description` text CHARACTER SET utf8 NOT NULL,
-  `functions` text CHARACTER SET utf8 NOT NULL,
-  `done` text CHARACTER SET utf8 NOT NULL,
-  `topic_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `topic_id` (`topic_id`),
-  KEY `title` (`title`(255))
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `functions` varchar(255) NOT NULL,
+  `done` varchar(255) NOT NULL,
+  `topic_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
@@ -87,8 +138,8 @@ CREATE TABLE IF NOT EXISTS `projects` (
 --
 
 INSERT INTO `projects` (`id`, `title`, `description`, `functions`, `done`, `topic_id`) VALUES
-(1, 'Проект: Відкритий бюджет [#42]', 'ідея полягає у створенні сервісу, за допомогою якого можна було б відслідковувати бюджет країни з повною деталізацією до твого будинку.', '    повні інформаційні звіти державних установ: починаючи з головного бюджету країни, закінчуючи витратами місцевого жеку; \r\n    співставлення в часі - планували/витратили; \r\n    можливість формування онлайн запитів по закону про відкриту інформацію, та ведення історії наданих даних по цих звітах; \r\n    рейтинг найбільш прозорих міст, селищ та чиновників; \r\n    зрозуміла інфографіка та статті, які б роз''яснювали пересічному громадянину бюджетотворчій процес та його право впливати на розподіл своїх податків.', 'існує команда девелоперів та бізнес-аналітиків, що почала працювати над проектом: http://www.it-krayina.org.ua/openbudget/', 420190),
-(2, 'Проект: Пряма демократія. [#21]', 'створення інструменту прямої демократії, а саме - можливості для кожного громадянина України впливати практично в реальному часі на законотворчий процесс та процесс реформування.\r\n', '    жорстка реєстрація користувачів (паспорт, ІНН тощо); \r\n    список питань, згідно якому, в форматі референдуму "так/ні", просто висловлює думку кожний пересічний громадянин (за наявності бажання впливати на процес). Список потрібно оновлювати, наприклад - раз на тиждень. \r\n    можливість обговорення непопулярних рішень; доведення у форматі суспільного далогу до населення необхідності таких рішень; \r\n    теоретично - можливість ветування суспільством окремих рішень. Наприклад, якщо рішення ветує більшість, держструктури забовязані в означений термін представити альтернативу законопроекту, детальне роз''яснення та аргументацію щодо доцільності кожного окремого пункту; \r\n    можливість інтегрування в таку систему розділу з просування кандидатів у владні органи через пряме голусування, такі "народні обранці", які найбільш підтримувані протягом певного довиборчого періоду станоляться автоматичними кандидатами на наступних виборах.\r\n', '    існує багато аналогічних систем в інших країніах; \r\n    декількома командами вже ведеться розробка прототипу системи.\r\n\r\n', 420188);
+(1, '??????: ????????? ?????? [#42]', '???? ??????? ? ????????? ???????, ?? ????????? ????? ????? ???? ? ??????????????? ?????? ?????? ? ?????? ???????????? ?? ????? ???????.', '    ????? ???????????? ????? ????????? ???????: ????????? ? ????????? ??????? ??????, ?????????? ????????? ????????? ????; \r\n    ????????????? ? ???? - ?????????/?????????; \r\n    ?????????? ?????????? ?????? ??????? ?? ?????? ??? ???????? ??????????, ?? ?', '????? ??????? ??????????? ?? ??????-??????????, ?? ?????? ????????? ??? ????????: http://www.it-krayina.org.ua/openbudget/', 420190),
+(2, '??????: ????? ??????????. [#21]', '????????? ??????????? ?????? ??????????, ? ???? - ?????????? ??? ??????? ??????????? ??????? ???????? ????????? ? ????????? ???? ?? ????????????? ??????? ?? ??????? ????????????.\r\n', '    ??????? ?????????? ???????????? (???????, ??? ????); \r\n    ?????? ??????, ?????? ?????, ? ??????? ??????????? "???/??", ?????? ????????? ????? ?????? ?????????? ?????????? (?? ????????? ??????? ???????? ?? ??????). ?????? ???????? ??????????, ????????', '    ????? ?????? ??????????? ?????? ? ????? ????????; \r\n    ?????????? ????????? ??? ???????? ???????? ????????? ???????.\r\n\r\n', 420188);
 
 -- --------------------------------------------------------
 
@@ -116,6 +167,39 @@ INSERT INTO `question` (`id`, `question`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `resource`
+--
+
+CREATE TABLE IF NOT EXISTS `resource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=16 ;
+
+--
+-- Dumping data for table `resource`
+--
+
+INSERT INTO `resource` (`id`, `name`) VALUES
+(1, 'all'),
+(2, 'Public Resource'),
+(3, 'Private Resource'),
+(4, 'Admin Resource'),
+(5, 'Application\\Controller\\Index'),
+(6, 'CsnUser\\Controller\\Index'),
+(7, 'CsnUser\\Controller\\Registration'),
+(8, 'CsnCms\\Controller\\Index'),
+(9, 'CsnCms\\Controller\\Article'),
+(10, 'CsnCms\\Controller\\Translation'),
+(11, 'CsnCms\\Controller\\Comment'),
+(12, 'CsnCms\\Controller\\Category'),
+(13, 'CsnFileManager\\Controller\\Index'),
+(14, 'Zend'),
+(15, 'Application\\Controller\\Index');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `role`
 --
 
@@ -130,9 +214,9 @@ CREATE TABLE IF NOT EXISTS `role` (
 --
 
 INSERT INTO `role` (`id`, `name`) VALUES
-(1, 'Guest'),
-(2, 'Member'),
-(3, 'Admin');
+(1, 'guest'),
+(2, 'member'),
+(3, 'admin');
 
 -- --------------------------------------------------------
 
@@ -207,12 +291,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   KEY `IDX_8D93D6495D83CC1` (`state_id`),
   KEY `IDX_8D93D6491E27F6BF` (`question_id`),
   KEY `search_idx` (`username`,`first_name`,`last_name`,`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `user`
 --
 
+INSERT INTO `user` (`id`, `role_id`, `language_id`, `state_id`, `question_id`, `username`, `first_name`, `last_name`, `email`, `password`, `answer`, `picture`, `registration_date`, `registration_token`, `email_confirmed`) VALUES
+(1, 2, 1, 1, 3, 'testuser', 'test', 'test', 'imychkova@gmail.com', '$2y$10$Of/HbsCWhZEEzMU4A9TFR.ZqyCXWl5Rdw6Pm4kbmBTTZlHx8iB7VK', 'testtest', NULL, '2014-05-13 15:34:36', '56c87345d56bd242f498b14219655eb5', 0),
+(2, 2, 1, 2, 3, 'tester', 'tester', 'mice', 'mice@devoffice.com', '$2y$10$2ei/cvXyHHkAEA5s0q3THuO6Kq.xnx8Y9sFKtIvOZkgr4YNEGmBRO', 'testtest', NULL, '2014-05-13 15:38:09', '92bd40079b63f35f4da18613862fbe6b', 1);
 
 -- --------------------------------------------------------
 
@@ -221,11 +308,10 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
   `password` varchar(255) CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `username` (`username`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
@@ -243,15 +329,14 @@ INSERT INTO `users` (`id`, `username`, `password`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `yas_lesson_order` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(10) unsigned NOT NULL,
-  `customer_name` varchar(1024) NOT NULL,
-  `customer_email` varchar(1024) NOT NULL,
-  `order_description` varchar(2048) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `state_id` int(3) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `teacher_id` (`teacher_id`,`customer_name`(255),`customer_email`(255),`created`,`state_id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `teacher_id` int(11) NOT NULL,
+  `customer_name` varchar(255) NOT NULL,
+  `customer_email` varchar(255) NOT NULL,
+  `order_description` varchar(255) NOT NULL,
+  `created` datetime NOT NULL,
+  `state_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
 
 --
@@ -305,13 +390,12 @@ INSERT INTO `yas_order_state` (`id`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `yas_review` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `reviewer` varchar(255) NOT NULL,
-  `review_content` varchar(2048) NOT NULL,
-  `review_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `moderated` int(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `reviewer` (`reviewer`,`review_content`(255))
+  `review_content` varchar(255) NOT NULL,
+  `review_date` datetime NOT NULL,
+  `moderated` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
@@ -329,15 +413,12 @@ INSERT INTO `yas_review` (`id`, `reviewer`, `review_content`, `review_date`, `mo
 --
 
 CREATE TABLE IF NOT EXISTS `yas_teacher` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `description` varchar(2048) NOT NULL,
-  `imageUrl` varchar(1024) DEFAULT NULL,
-  `urlName` varchar(100) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `imageUrl` varchar(255) NOT NULL,
+  `urlName` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `urlName_2` (`urlName`),
-  KEY `name` (`name`),
-  KEY `imageUrl` (`imageUrl`(255)),
   KEY `urlName` (`urlName`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
@@ -347,4 +428,38 @@ CREATE TABLE IF NOT EXISTS `yas_teacher` (
 
 INSERT INTO `yas_teacher` (`id`, `name`, `description`, `imageUrl`, `urlName`) VALUES
 (1, 'Ярослава Солтивская', 'Преподаватель ВНЗ с 5-летним стажем. Учитель немецкого языка', 'img/yas/Soltivska_Foto.jpg', 'yaroslava-soltivskaja'),
-(2, 'Зоя Новикова', 'Преподаватель ВНЗ с 50-летним стажем', NULL, 'zoja-novikova');
+(2, 'Зоя Новикова', 'Преподаватель ВНЗ с 50-летним стажем', '', 'zoja-novikova');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `friends`
+--
+ALTER TABLE `friends`
+  ADD CONSTRAINT `FK_21EE70696A5458E8` FOREIGN KEY (`friend_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `FK_21EE7069A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `privilege`
+--
+ALTER TABLE `privilege`
+  ADD CONSTRAINT `FK_87209A87D60322AC` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
+  ADD CONSTRAINT `FK_87209A8789329D25` FOREIGN KEY (`resource_id`) REFERENCES `resource` (`id`);
+
+--
+-- Constraints for table `roles_parents`
+--
+ALTER TABLE `roles_parents`
+  ADD CONSTRAINT `FK_C70E6B91727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `role` (`id`),
+  ADD CONSTRAINT `FK_C70E6B91D60322AC` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
+
+--
+-- Constraints for table `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `FK_8D93D6491E27F6BF` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`),
+  ADD CONSTRAINT `FK_8D93D6495D83CC1` FOREIGN KEY (`state_id`) REFERENCES `state` (`id`),
+  ADD CONSTRAINT `FK_8D93D64982F1BAF4` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
+  ADD CONSTRAINT `FK_8D93D649D60322AC` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);

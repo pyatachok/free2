@@ -22,41 +22,41 @@ return array (
 					),
 				),
 			),
-			'login' => array (
-				'type' => 'Zend\Mvc\Router\Http\Literal',
-				'options' => array (
-					'route' => '/login',
-					'defaults' => array (
-						'controller' => 'Application\Controller\Auth',
-						'action' => 'login',
-					),
-				),
-			),
-			
-			'registration' => array (
-				'type' => 'Zend\Mvc\Router\Http\Literal',
-				'options' => array (
-					'route' => '/registration',
-					'defaults' => array (
-						'controller' => 'Application\Controller\Auth',
-						'action' => 'registration',
-					),
-				),
-			),
-			
-			
-			'logout' => array (
-				'type' => 'Zend\Mvc\Router\Http\Literal',
-				'options' => array (
-					'route' => '/logout',
-					'defaults' => array (
-						'controller' => 'Application\Controller\Auth',
-						'action' => 'logout',
-					),
-				),
-			),
-			
-			
+//			'login' => array (
+//				'type' => 'Zend\Mvc\Router\Http\Literal',
+//				'options' => array (
+//					'route' => '/login',
+//					'defaults' => array (
+//						'controller' => 'Application\Controller\Auth',
+//						'action' => 'login',
+//					),
+//				),
+//			),
+//
+//			'registration' => array (
+//				'type' => 'Zend\Mvc\Router\Http\Literal',
+//				'options' => array (
+//					'route' => '/registration',
+//					'defaults' => array (
+//						'controller' => 'Application\Controller\Auth',
+//						'action' => 'registration',
+//					),
+//				),
+//			),
+//
+//
+//			'logout' => array (
+//				'type' => 'Zend\Mvc\Router\Http\Literal',
+//				'options' => array (
+//					'route' => '/logout',
+//					'defaults' => array (
+//						'controller' => 'Application\Controller\Auth',
+//						'action' => 'logout',
+//					),
+//				),
+//			),
+//
+
 			'project' => array (
 				'type' => 'Segment',
 				'options' => array (
@@ -288,7 +288,7 @@ return array (
 		'name' => 'Ярослава Солтівская',
 		'skype' => 'skype',
 	],
-	
+
 	'projectsApi' => [
 		'url' => 'http://ideas.it-krayina.org.ua/'
 	],
